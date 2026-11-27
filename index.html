@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff2f5">
+  <meta name="description" content="Una carta de aniversario.">
+  <title>Para ti ♡ Feliz aniversario</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fff5f7;
+      --white: #fffdfb;
+      --ink: #422039;
+      --muted: #694d65;
+      --pink: #c12462;
+      --hot: #d92e6e;
+      --line: #e8b4ca;
+      --lavender: #e9dfff;
+      --border: #472240;
+      --rounded: "Segoe UI", system-ui, sans-serif;
+      --display: "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; isolation: isolate; background: var(--paper); color: var(--ink); font: 1rem/1.55 var(--rounded); }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { font-family: var(--display); font-weight: 850; line-height: 1.03; letter-spacing: -.055em; }
+    button, input { font: inherit; }
+    button, summary { cursor: pointer; }
+    a { color: inherit; }
+    :is(button, input, a, summary):focus-visible { outline: 3px solid #934caa; outline-offset: 4px; }
+    .button {
+      display: inline-flex; min-height: 50px; align-items: center; justify-content: center; gap: .6rem;
+      border: 2px solid var(--border); border-radius: 100px; padding: .65rem 1.32rem;
+      background: var(--pink); color: white; font-weight: 750; box-shadow: 0 4px 0 var(--border);
+      transition: transform .16s ease, box-shadow .16s ease, background-color .16s ease;
+    }
+    .button:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--border); background: #a91d51; }
+    .button:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--border); }
+    .button span { font-size: 1.18em; line-height: 1; }
+    .access {
+      min-height: 100vh; min-height: 100svh; position: relative;
+      display: grid; place-items: center; overflow: hidden; padding: 2.2rem 1.35rem 2.9rem;
+      background-color: #ffdfe9;
+      background-image: radial-gradient(#cb729638 1.25px, transparent 1.25px);
+      background-size: 19px 19px;
+    }
+    .access::before, .access::after {
+      position: absolute; z-index: 0; color: #c9457824; content: "♥"; font-size: clamp(13rem, 34vw, 33rem);
+      line-height: 1; pointer-events: none;
+    }
+    .access::before { left: -4%; bottom: -11%; transform: rotate(-25deg); }
+    .access::after { right: -5%; top: -16%; transform: rotate(23deg); }
+    .heart-rain { position: fixed; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; }
+    .heart-rain span {
+      position: absolute; top: -2.25rem; left: var(--left); color: var(--hot);
+      font-size: var(--size, 1.55rem); line-height: 1; opacity: 0;
+      animation: rain-heart var(--duration, 4.5s) linear var(--delay, 0s) infinite;
+    }
+    .heart-rain span:nth-child(3n) { color: #925bb4; --size: 1.18rem; --duration: 4.3s; }
+    .heart-rain span:nth-child(3n + 1) { color: #cf427d; --size: 1.85rem; --duration: 4.65s; }
+    @keyframes rain-heart {
+      0% { opacity: 0; transform: translate(-.5rem, 0) rotate(-20deg); }
+      12%, 82% { opacity: .72; }
+      50% { transform: translate(.5rem, 55vh) rotate(16deg); }
+      100% { opacity: 0; transform: translate(-.25rem, 110vh) rotate(-8deg); }
+    }
+    .access-card {
+      width: min(100%, 29rem); position: relative; z-index: 1; padding: clamp(1.6rem, 6vw, 3.2rem);
+      border: 2px solid var(--border); border-radius: 2.1rem; background: var(--white);
+      box-shadow: 7px 8px 0 var(--border); text-align: center;
+    }
+    .mini-heart {
+      display: grid; place-items: center; width: 3.55rem; height: 3.55rem; margin: 0 auto 1.15rem;
+      border: 2px solid var(--border); border-radius: 1.12rem; background: var(--lavender);
+      color: var(--pink); font-size: 2rem; line-height: 1; transform: rotate(-10deg);
+      box-shadow: 3px 3px 0 var(--border);
+    }
+    .access-card h1 { font-size: clamp(2.25rem, 6.9vw, 3.55rem); }
+    .access-card form { width: min(100%, 17rem); margin: 1.35rem auto 0; text-align: left; }
+    .access-card label { display: block; font-weight: 750; margin-bottom: .4rem; }
+    .access-card input {
+      width: 100%; min-height: 53px; border: 2px solid #996481; background: #fff6fa; color: var(--ink);
+      border-radius: .87rem; padding: .64rem .85rem; letter-spacing: .12em; font-size: 1.05rem;
+    }
+    .access-card input[aria-invalid="true"] { border-color: #a91d51; }
+    .access-card .button { width: 100%; margin-top: .92rem; }
+    .error { margin-top: .45rem; color: #9e1646; font-weight: 650; font-size: .91rem; }
+    .hint { margin-top: .95rem; }
+    .hint button {
+      display: inline-grid; place-items: center; min-height: 44px; padding: .4rem 1.1rem;
+      border: 1.5px solid var(--border); border-radius: 100px;
+      background: var(--lavender); color: var(--ink); font-weight: 750;
+    }
+    .hint button:hover { background: #f2cce0; }
+    .hint p:not(:empty) { max-width: 32ch; margin: .45rem auto 0; color: var(--muted); }
+    noscript p { color: var(--ink); margin: .9rem auto 0; max-width: 30ch; }
+    #anniversary { position: relative; z-index: 1; }
+    .blackout {
+      display: grid; place-items: center; min-height: 100vh; min-height: 100svh;
+      padding: 2rem 1rem; background: #000; color: #fff; text-align: center;
+    }
+    .blackout h1 { font-size: clamp(2.5rem, 12vw, 9rem); }
+    .blackout h1:focus { outline: none; }
+    body:has(.letter-stage:not([hidden])) {
+      background: radial-gradient(ellipse at 50% 28%, #fffafa, #fff1f6 52%, #f6e7fb);
+    }
+    .letter-stage {
+      position: relative; z-index: 1; display: grid; place-items: center;
+      min-height: 100vh; min-height: 100svh; padding: 2rem 1.25rem 2.6rem;
+    }
+    .letter-scene {
+      display: grid; grid-template-areas: "card"; place-items: center;
+      width: min(100%, 35rem); isolation: isolate;
+    }
+    .mailpiece, .letter-paper { grid-area: card; }
+    .mailpiece { width: min(100%, 22rem); display: grid; justify-items: center; }
+    .envelope-button {
+      position: relative; display: block; width: 100%; aspect-ratio: 1.57;
+      padding: 0; border: 0; border-radius: .95rem; background: transparent; color: var(--ink);
+    }
+    .envelope-button:not(:disabled):hover .envelope-seal {
+      filter: brightness(1.08); transform: translate(-50%, -50%) scale(1.08);
+    }
+    .envelope-button:disabled { cursor: default; }
+    .envelope-back, .envelope-fold, .envelope-front, .envelope-seal, .folded-sheet {
+      position: absolute; display: block; pointer-events: none;
+    }
+    .envelope-back {
+      z-index: 0; inset: 0; border: 2px solid #a45776; border-radius: inherit;
+      background: linear-gradient(#b96085, #e6a3bf 77%);
+      box-shadow: 0 .55rem 0 #a4577624, 0 1.1rem 2.65rem #77335246;
+    }
+    .envelope-fold {
+      z-index: 4; top: 2px; left: 2px; right: 2px; height: 73%;
+      border-radius: .82rem .82rem 0 0; background: #ba7393;
+      clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top center;
+    }
+    .envelope-fold::after {
+      content: ""; position: absolute; inset: 0 0 3px; border-radius: inherit; clip-path: inherit;
+      background: linear-gradient(156deg, #fff4f6 4%, #ffdfec 62%, #f6b9d1);
+    }
+    .envelope-front {
+      z-index: 3; inset: 2px; border-radius: inherit;
+      background:
+        linear-gradient(36deg, #fbc9d9 49.6%, #c983a0 50%, transparent 50.7%) bottom left / 51% 100% no-repeat,
+        linear-gradient(-36deg, #fac6da 49.6%, #c983a0 50%, transparent 50.7%) bottom right / 51% 100% no-repeat,
+        linear-gradient(155deg, #fbe0eb, #efadc9);
+      clip-path: polygon(0 9%, 50% 65%, 100% 9%, 100% 100%, 0 100%);
+    }
+    .envelope-front::after {
+      content: ""; position: absolute; inset: 10% .5rem .5rem; border: 1px dashed #a4577680;
+      border-top: 0; border-radius: 0 0 .65rem .65rem;
+    }
+    .envelope-seal {
+      z-index: 5; top: 70%; left: 50%; transform: translate(-50%, -50%) rotate(-8deg);
+      display: grid; place-items: center; width: clamp(2.7rem, 12vw, 3.85rem); aspect-ratio: 1;
+      border: 2px solid #9a244d; border-radius: 47% 53% 47% 53% / 52% 48% 55% 45%;
+      background: radial-gradient(circle at 36% 29%, #e7779c, #c33a6b 58%, #a32955);
+      color: #fff5f7; box-shadow: inset 0 0 0 4px #fda7c540, 0 4px 6px #9a244d59;
+      font-size: clamp(1.3rem, 5vw, 1.85rem); line-height: 1;
+      transition: filter .18s ease, transform .18s ease;
+    }
+    .folded-sheet {
+      z-index: 2; width: 73%; height: 52%; left: 50%; top: 34%; opacity: 0;
+      border: 1px solid #e1b2b5; border-radius: .35rem; background: #fffaf1;
+      box-shadow: 0 .3rem .7rem #79384e39; overflow: hidden;
+    }
+    .folded-sheet::before {
+      content: ""; position: absolute; inset: 0 0 45%;
+      border-bottom: 1px solid #dfbcc0; border-radius: inherit;
+      background: linear-gradient(175deg, #fffcf6, #ffece7);
+      box-shadow: 0 .16rem .25rem #ac63732b;
+    }
+    .folded-sheet::after {
+      content: "♡"; position: absolute; top: 15%; left: 0; right: 0;
+      color: #ab3a65; font: 700 clamp(1rem, 5vw, 1.8rem)/1.1 var(--display);
+    }
+    .open-invitation { margin-top: 1.3rem; color: var(--muted); font-weight: 750; text-align: center; }
+    .open-invitation.removed { visibility: hidden; }
+    .letter-paper {
+      z-index: 1; position: relative; visibility: hidden; width: 100%;
+      padding: clamp(1.4rem, 5vw, 2.8rem); border: 1px solid #e5b9c5; border-radius: .7rem;
+      background: linear-gradient(175deg, #fffaf5, #fffdf9 48%, #fff7f5);
+      box-shadow: 0 1rem 2.5rem #71345038;
+    }
+    .letter-paper::before {
+      content: ""; position: absolute; inset: .48rem; pointer-events: none;
+      border: 1px solid #e9b9c7; border-radius: .45rem;
+    }
+    .letter-paper::after {
+      content: ""; position: absolute; inset: 0 0 50%; pointer-events: none; opacity: 0;
+      border-radius: .7rem .7rem 0 0; border-bottom: 1px solid #dbacac;
+      background: linear-gradient(#fffaf4, #f8dfe1);
+      box-shadow: 0 .25rem .4rem #9e5d6824; transform-origin: bottom;
+    }
+    .letter-details {
+      display: flex; align-items: center; gap: .65rem; margin-bottom: .75rem;
+      color: var(--pink); font-size: 1.25rem; line-height: 1;
+    }
+    .letter-details::after { content: ""; height: 1px; background: #e8b9c8; flex: 1; }
+    .letter-paper h1 { color: #a32955; font: 700 clamp(1.85rem, 7vw, 3.15rem)/1.06 Georgia, serif; letter-spacing: -.045em; }
+    .letter-paper h1:focus { outline: none; }
+    .letter-text { margin-top: .95rem; font: clamp(1.02rem, 2.8vw, 1.16rem)/1.55 Georgia, serif; }
+    .letter-text p + p { margin-top: .76rem; }
+    .signature { font-weight: 700; font-style: italic; color: #a32955; }
+    .letter-scene[data-open] .mailpiece { animation: bring-envelope 1.93s ease both; }
+    .letter-scene[data-open] .envelope-fold { animation: open-fold .38s .48s ease-in-out both; }
+    .letter-scene[data-open] .envelope-seal { animation: release-seal .19s .53s ease-out both; }
+    .letter-scene[data-open] .folded-sheet { animation: slide-folded .7s .83s cubic-bezier(.22,.69,.25,1) both; }
+    .letter-scene[data-open] .letter-paper {
+      visibility: visible;
+      animation: unfold-letter .68s 1.55s cubic-bezier(.2,.72,.26,1) both;
+    }
+    .letter-scene[data-open] .letter-paper::after { animation: flatten-crease .56s 1.61s ease-out both; }
+    .letter-scene[data-open] .letter-content { animation: show-writing .34s 2.23s ease-out both; }
+    @keyframes bring-envelope {
+      0% { transform: none; opacity: 1; }
+      8% { transform: translateY(.1rem) rotate(-5deg) scale(.98); }
+      15% { transform: translateY(-.32rem) rotate(4deg) scale(1.04); }
+      25%, 80% { transform: translateY(-.55rem) rotate(0deg) scale(1.1); opacity: 1; }
+      100% { transform: translateY(2.7rem) scale(.93); opacity: 0; }
+    }
+    @keyframes open-fold {
+      from { transform: perspective(600px) rotateX(0); }
+      to { transform: perspective(600px) rotateX(168deg); }
+    }
+    @keyframes release-seal {
+      from { opacity: 1; }
+      to { opacity: 0; transform: translate(-43%, -82%) rotate(15deg) scale(.78); }
+    }
+    @keyframes slide-folded {
+      from { opacity: 1; transform: translate(-50%, 33%) scale(.92); }
+      to { opacity: 1; transform: translate(-50%, -106%) scale(1.04); }
+    }
+    @keyframes unfold-letter {
+      0% { opacity: 0; transform: translateY(-32%) scale(.51, .24); }
+      20% { opacity: 1; transform: translateY(-20%) scale(.61, .37); }
+      100% { opacity: 1; transform: none; }
+    }
+    @keyframes flatten-crease {
+      0% { opacity: 1; transform: perspective(480px) rotateX(-58deg); }
+      72% { opacity: .78; }
+      100% { opacity: 0; transform: perspective(480px) rotateX(0); }
+    }
+    @keyframes show-writing { from { opacity: 0; } to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .letter-scene[data-open] .mailpiece { visibility: hidden; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="access" id="access" aria-labelledby="access-title">
+    <div class="access-card">
+      <div class="mini-heart" aria-hidden="true">♥</div>
+      <h1 id="access-title">Solo para mi<br> persona favorita</h1>
+      <form id="unlock-form">
+        <label for="anniversary-code">Contraseña</label>
+        <input id="anniversary-code" type="password" autocomplete="off" spellcheck="false" aria-describedby="code-error" required>
+        <p class="error" id="code-error" aria-live="polite" hidden></p>
+        <button class="button" type="submit">Entrar <span aria-hidden="true">♡</span></button>
+      </form>
+      <div class="hint">
+        <button type="button" id="hint-button" aria-controls="hint-message">Pista</button>
+        <p id="hint-message" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <noscript><p>Activa JavaScript en tu navegador para abrir la sorpresa.</p></noscript>
+    </div>
+  </main>
+  <div class="heart-rain" id="heart-rain" aria-hidden="true">
+    <span style="--left: 2%; --delay: -.45s">♡</span>
+    <span style="--left: 9%; --delay: -2.6s">♥</span>
+    <span style="--left: 15%; --delay: -1.5s">♡</span>
+    <span style="--left: 23%; --delay: -3.7s">♥</span>
+    <span style="--left: 31%; --delay: -.2s">♥</span>
+    <span style="--left: 40%; --delay: -2.1s">♡</span>
+    <span style="--left: 50%; --delay: -3.3s">♥</span>
+    <span style="--left: 58%; --delay: -.85s">♡</span>
+    <span style="--left: 66%; --delay: -2.9s">♥</span>
+    <span style="--left: 75%; --delay: -1.2s">♡</span>
+    <span style="--left: 83%; --delay: -3.95s">♥</span>
+    <span style="--left: 91%; --delay: -1.8s">♡</span>
+    <span style="--left: 96%; --delay: -2.35s">♥</span>
+  </div>
+  <main class="blackout" id="blackout" aria-labelledby="blackout-title" hidden>
+    <h1 id="blackout-title" tabindex="-1">NO ME MERECES BYE</h1>
+  </main>
+  <main class="letter-stage" id="anniversary" aria-label="Carta de aniversario" hidden>
+    <div class="letter-scene" id="letter-scene">
+      <div class="mailpiece">
+        <button class="envelope-button" id="open-letter" type="button" aria-label="Abrir el sobre"
+                aria-controls="letter" aria-expanded="false">
+          <span class="envelope-back" aria-hidden="true"></span>
+          <span class="envelope-fold" aria-hidden="true"></span>
+          <span class="folded-sheet" aria-hidden="true"></span>
+          <span class="envelope-front" aria-hidden="true"></span>
+          <span class="envelope-seal" aria-hidden="true">♥</span>
+        </button>
+        <p class="open-invitation" id="open-invitation">Toca el sobre para abrirlo</p>
+      </div>
+      <article class="letter-paper" id="letter" aria-labelledby="letter-heading" inert>
+        <div class="letter-content">
+          <div class="letter-details" aria-hidden="true">♡</div>
+          <h1 id="letter-heading" tabindex="-1">Para ti, amor ♡</h1>
+          <div class="letter-text">
+            <p>Feliz aniversario, amor. Me gusta pensar en todas esas cosas pequeñas que hacen que un día contigo se sienta especial. Una conversación que se alarga, una risa que aparece de la nada o las ganas de contarte algo apenas pasa.</p>
+            <p>Gracias por compartir tu tiempo conmigo. Me hace ilusión seguir haciendo planes contigo y encontrarnos con momentos que algún día querremos recordar.</p>
+            <p>Te quiero mucho.</p>
+            <p class="signature">Con cariño, yo.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+  <script>
+    const access = document.querySelector('#access');
+    const unlockForm = document.querySelector('#unlock-form');
+    const code = document.querySelector('#anniversary-code');
+    const error = document.querySelector('#code-error');
+    const hintButton = document.querySelector('#hint-button');
+    const hintMessage = document.querySelector('#hint-message');
+    const heartRain = document.querySelector('#heart-rain');
+    const blackout = document.querySelector('#blackout');
+    const blackoutTitle = document.querySelector('#blackout-title');
+    const anniversary = document.querySelector('#anniversary');
+    const letter = document.querySelector('#letter');
+    const letterScene = document.querySelector('#letter-scene');
+    const openLetter = document.querySelector('#open-letter');
+    const invitation = document.querySelector('#open-invitation');
+    const letterHeading = document.querySelector('#letter-heading');
+    const hints = [
+      ['Es una fecha', 'Otra pista'],
+      ['Una fecha puem, no es navidad ni tu cumpleaños, ni el mio xd', 'Una pista más'],
+      ['Oye enserio?, tampoco es hoy xd, es una fecha importante, 4 dígitos, con eso ya te dije todo', 'Última pista'],
+      ['Por eso eres mongolita', 'Última de últimas']
+    ];
+    let nextHint = 0;
+
+    function clearError() {
+      error.hidden = true;
+      error.textContent = '';
+      code.removeAttribute('aria-invalid');
+    }
+
+    hintButton.addEventListener('click', () => {
+      if (nextHint < hints.length) {
+        const [message, nextLabel] = hints[nextHint++];
+        hintMessage.textContent = message;
+        hintButton.textContent = nextLabel;
+        return;
+      }
+
+      access.hidden = true;
+      heartRain.hidden = true;
+      blackout.hidden = false;
+      blackoutTitle.focus();
+    });
+
+    code.addEventListener('input', clearError);
+    unlockForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!/^27\/?07$/.test(code.value.trim())) {
+        error.hidden = false;
+        error.textContent = 'Esa clave no coincide. Intenta otra vez.';
+        code.setAttribute('aria-invalid', 'true');
+        code.focus();
+        code.select();
+        return;
+      }
+
+      unlockForm.reset();
+      clearError();
+      access.hidden = true;
+      anniversary.hidden = false;
+      openLetter.focus();
+    });
+
+    openLetter.addEventListener('click', async () => {
+      openLetter.disabled = true;
+      openLetter.setAttribute('aria-expanded', 'true');
+      invitation.classList.add('removed');
+      letterScene.setAttribute('data-open', '');
+
+      const animations = letter.getAnimations?.({subtree: true}) ?? [];
+      await Promise.allSettled(animations.map(animation => animation.finished));
+      letter.inert = false;
+      letterHeading.focus();
+    });
+  </script>
+</body>
+</html>
